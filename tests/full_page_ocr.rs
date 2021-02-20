@@ -13,6 +13,20 @@ fn test_source_resolution() {
 }
 
 #[test]
+pub fn recognize() {
+    let path = Path::new("tests/di.png");
+    let mut tes = tesseract::TessApi::new(Some("tests/tessdata"), "eng").unwrap();
+
+    let img = leptonica::pix_read(&path).unwrap();
+    tes.set_image(&img);
+
+    tes.set_pagesegmode(leptess::capi::TessPageSegMode_PSM_AUTO_OSD);
+    tes.recognize(Some(
+        std::sync::Arc::new(tesseract::monitor::Monitor::new()),
+    ));
+}
+
+#[test]
 fn test_get_text() {
     let mut lt = LepTess::new(Some("./tests/tessdata"), "eng").unwrap();
     lt.set_image("./tests/di.png").unwrap();
@@ -89,7 +103,7 @@ fn test_ocr_iterate_word() {
     lt.set_image("./tests/di.png").unwrap();
 
     let boxes = lt
-        .get_component_boxes(leptess::capi::TessPageIteratorLevel_RIL_WORD, true)
+        .get_component_boxes(tesseract::PageIteratorLevel::Word, true)
         .unwrap();
 
     for b in &boxes {
@@ -150,7 +164,7 @@ fn test_low_lvl_ocr_iterate_word() {
     api.set_image(&img);
 
     let boxes = api
-        .get_component_images(leptess::capi::TessPageIteratorLevel_RIL_WORD, true)
+        .get_component_images(tesseract::PageIteratorLevel::Word, true)
         .unwrap();
 
     for b in &boxes {

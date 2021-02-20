@@ -11,7 +11,7 @@ fn main() {
 
     // detect bounding boxes for words
     let boxes = api
-        .get_component_images(leptess::capi::TessPageIteratorLevel_RIL_WORD, true)
+        .get_component_images(tesseract::PageIteratorLevel::Word, true)
         .unwrap();
 
     println!("Found {} textline image components.", boxes.get_n());

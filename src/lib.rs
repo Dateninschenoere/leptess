@@ -49,6 +49,9 @@ pub mod capi;
 pub mod leptonica;
 pub mod tesseract;
 
+extern crate num_traits;
+extern crate num_derive;
+
 use std::os::raw::c_int;
 use std::path::Path;
 
@@ -81,7 +84,7 @@ use std::path::Path;
 /// # let mut lt = leptess::LepTess::new(Some("./tests/tessdata"), "eng").unwrap();
 /// # lt.set_image("./tests/di.png");
 /// let boxes = lt.get_component_boxes(
-///     leptess::capi::TessPageIteratorLevel_RIL_WORD,
+///     leptess::tesseract::PageIteratorLevel::Word,
 ///     true,
 /// ).unwrap();
 ///
@@ -140,7 +143,7 @@ impl LepTess {
     }
 
     pub fn recognize(&self) -> i32 {
-        self.tess_api.recognize()
+        self.tess_api.recognize(None)
     }
 
     /// Restrict OCR to a specific region of the image.
@@ -208,7 +211,7 @@ impl LepTess {
     /// let mut lt = leptess::LepTess::new(None, "eng").unwrap();
     /// lt.set_image("./tests/di.png");
     /// let boxes = lt.get_component_boxes(
-    ///     leptess::capi::TessPageIteratorLevel_RIL_WORD,
+    ///     leptess::tesseract::PageIteratorLevel::Word,
     ///     true,
     /// ).unwrap();
     ///
@@ -218,7 +221,7 @@ impl LepTess {
     /// ```
     pub fn get_component_boxes(
         &self,
-        level: capi::TessPageIteratorLevel,
+        level: tesseract::PageIteratorLevel,
         text_only: bool,
     ) -> Option<leptonica::Boxa> {
         self.tess_api.get_component_images(level, text_only)

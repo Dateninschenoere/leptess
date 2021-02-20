@@ -11,9 +11,11 @@ license = "MIT"
 documentation = "https://houqp.github.io/leptess/leptess/index.html"
 
 [dependencies]
-leptonica-sys = "0.3.2"
-tesseract-sys = "0.5.2"
+leptonica-sys = "0.3.4"
+tesseract-sys = "0.5.5"
 thiserror = "1"
+num-traits = "0.2.14"
+num-derive = "0.3.3"
 
 [dev-dependencies]
 regex = "1.4.3"
